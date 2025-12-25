@@ -1,0 +1,10 @@
+.env
+token.json
+client_secrets.json
+temp_assets/
+__pycache__/
+*.mp4
+pipeline_log.txt
+available_models.txt
+test_gemini.py
+setup_auth.py

@@ -1,0 +1,51 @@
+name: Daily Pro Shorts Automation
+
+on:
+  schedule:
+    - cron: '0 10 * * *' # 10:00 AM UTC daily
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y imagemagick
+        pip install -r requirements.txt
+
+    - name: Run Automation Pipeline
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+        YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+        GOOGLE_TOKEN: ${{ secrets.GOOGLE_TOKEN }}
+      run: |
+        # Inject secrets into files
+        echo "GEMINI_API_KEY=$GEMINI_API_KEY" > .env
+        echo "PEXELS_API_KEY=$PEXELS_API_KEY" >> .env
+        echo "$GOOGLE_TOKEN" > token.json
+        
+        # Inject client secrets
+        echo "{
+          \"installed\": {
+            \"client_id\": \"$YOUTUBE_CLIENT_ID\",
+            \"client_secret\": \"$YOUTUBE_CLIENT_SECRET\",
+            \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",
+            \"token_uri\": \"https://oauth2.googleapis.com/token\",
+            \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\"
+          }
+        }" > client_secrets.json
+
+        # Run the multi-niche pipeline
+        python main_pipeline.py
