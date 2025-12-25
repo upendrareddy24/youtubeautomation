@@ -1,7 +1,11 @@
 import os
 import requests
 import logging
+import gc
 from moviepy import VideoFileClip, TextClip, CompositeVideoClip, concatenate_videoclips
+
+# ... imports ...
+
 from dotenv import load_dotenv
 from config import NICHES
 
