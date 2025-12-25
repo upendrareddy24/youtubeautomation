@@ -1,0 +1,47 @@
+{
+    "schedule_time": "10:00",
+    "niches": {
+        "AI Productivity": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Stoic Wisdom": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Financial Intelligence": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Mind-Blowing Science": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Psychology Secrets": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Luxury Lifestyle": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Hidden Travel Gems": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Healthy Longevity": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Historical Mysteries": {
+            "enabled": true,
+            "daily_count": 1
+        },
+        "Productivity Hacks": {
+            "enabled": true,
+            "daily_count": 1
+        }
+    },
+    "last_run": null,
+    "status": "Idle"
+}

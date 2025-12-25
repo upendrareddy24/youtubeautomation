@@ -9,32 +9,36 @@ from config import NICHES, DELAY_BETWEEN_UPLOADS_SECONDS
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def run_pipeline(niche):
+def run_pipeline(niche, count=1):
     try:
         content_engine = ContentGenerator()
         video_engine = VideoBuilder()
         uploader = YouTubeUploader()
 
-        logger.info(f"--- Starting Pipeline for Niche: {niche} ---")
+        logger.info(f"--- Starting Pipeline for Niche: {niche} (Count: {count}) ---")
         
-        # Step 1: Content Meta
-        script_data = content_engine.generate_short_script(niche)
-        if not script_data:
-            logger.error(f"Script generation failed for {niche}.")
-            return False
+        for i in range(count):
+            logger.info(f"Generating video {i+1} of {count} for {niche}...")
+            # Step 1: Content Meta
+            script_data = content_engine.generate_short_script(niche)
+            if not script_data:
+                continue
 
-        # Step 2: Build Video
-        video_path = video_engine.build_short(script_data, niche=niche)
-        if not video_path:
-            logger.error(f"Video building failed for {niche}.")
-            return False
+            # Step 2: Build Video
+            video_path = video_engine.build_short(script_data, niche=niche)
+            if not video_path:
+                continue
 
-        # Step 3: Upload
-        uploader.upload_short(
-            video_path, 
-            script_data['title'], 
-            script_data['description']
-        )
+            # Step 3: Upload
+            uploader.upload_short(
+                video_path, 
+                script_data['title'], 
+                script_data['description']
+            )
+            
+            # Brief pause between videos in same niche
+            if i < count - 1:
+                time.sleep(30)
         
         logger.info(f"--- Successfully Finished Niche: {niche} ---")
         return True
@@ -43,15 +47,40 @@ def run_pipeline(niche):
         logger.error(f"Pipeline failed for {niche}: {e}")
         return False
 
+def load_dashboard_settings():
+    if os.path.exists("settings.json"):
+        with open("settings.json", "r") as f:
+            return json.load(f)
+    return None
+
 if __name__ == "__main__":
-    niche_list = list(NICHES.keys())
-    logger.info(f"Starting Pro Automation for {len(niche_list)} niches.")
+    settings = load_dashboard_settings()
+    if not settings:
+        niche_list = list(NICHES.keys())
+        logger.warning("No settings.json found. Using default niches.")
+        active_niches = {n: {"enabled": True, "daily_count": 1} for n in niche_list}
+    else:
+        active_niches = settings.get("niches", {})
+
+    logger.info("Starting Pro Automation via Dashboard Settings.")
     
-    for i, niche in enumerate(niche_list):
-        success = run_pipeline(niche)
+    enabled_niches = [n for n, cfg in active_niches.items() if cfg.get("enabled")]
+    
+    for i, niche in enumerate(enabled_niches):
+        count = active_niches[niche].get("daily_count", 1)
+        if count <= 0: continue
         
+        success = run_pipeline(niche, count=count)
+        
+        # Update last run in settings
+        if settings:
+            settings["last_run"] = time.strftime("%Y-%m-%d %H:%M:%S")
+            settings["status"] = "Idle"
+            with open("settings.json", "w") as f:
+                json.dump(settings, f, indent=4)
+
         # Delay between niches to avoid spam detection
-        if i < len(niche_list) - 1:
+        if i < len(enabled_niches) - 1:
             wait_time = DELAY_BETWEEN_UPLOADS_SECONDS
             logger.info(f"Waiting {wait_time} seconds before the next niche...")
             time.sleep(wait_time)

@@ -1,1 +1,1 @@
-worker: python heroku_setup.py && python main_pipeline.py
+web: python heroku_setup.py && gunicorn app:app
