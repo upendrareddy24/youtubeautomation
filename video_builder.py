@@ -56,6 +56,16 @@ class VideoBuilder:
             video_path = self.download_pexels_video(search_query)
             if video_path:
                 clip = VideoFileClip(video_path)
+                # Resize/Crop to 9:16 aspect ratio (1080x1920) for Shorts
+                # First resize to cover 1080x1920
+                if clip.w / clip.h > 1080 / 1920:
+                     clip = clip.resized(height=1920)
+                else:
+                     clip = clip.resized(width=1080)
+                
+                # Center crop
+                clip = clip.cropped(width=1080, height=1920, x_center=clip.w/2, y_center=clip.h/2)
+                
                 duration = min(clip.duration, 5)
                 clip = clip.subclipped(0, duration) 
                 
