@@ -56,9 +56,10 @@ class VideoBuilder:
             video_path = self.download_pexels_video(search_query)
             if video_path:
                 clip = VideoFileClip(video_path)
-                # Resize/Crop to 9:16 aspect ratio (1080x1920) for Shorts
-                # First resize to cover 1080x1920
-                target_w, target_h = 1080, 1920
+                # Resize/Crop to 9:16 aspect ratio (720x1280) for Memory Optimization
+                # 1080p is too heavy for Heroku Free Tier (512MB RAM)
+                target_w, target_h = 720, 1280
+                
                 if clip.w / clip.h > target_w / target_h:
                      clip = clip.resized(height=target_h)
                 else:
@@ -74,12 +75,12 @@ class VideoBuilder:
                     # Add Text Overlay
                     txt_clip = TextClip(
                         text=scene['text'], 
-                        font_size=50, 
+                        font_size=40,  # Slightly smaller font for 720p
                         color='white', 
                         font='arial.ttf', 
                         method='caption',
-                        size=(clip.w * 0.8, None)
-                    ).with_position('center').with_duration(5)
+                        size=(int(clip.w * 0.8), None) # Ensure int size
+                    ).with_position(('center', 'center')).with_duration(duration)
                     
                     # Combine video and text
                     final_scene = CompositeVideoClip([clip, txt_clip])
