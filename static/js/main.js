@@ -4,6 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const timePicker = document.getElementById('dailyTime');
     const btnRunNow = document.getElementById('btnRunNow');
     const statusText = document.getElementById('statusText');
+    const accountSwitcher = document.getElementById('accountSwitcher');
+
+    // Switch Accounts
+    accountSwitcher.addEventListener('change', async () => {
+        const account = accountSwitcher.value;
+        try {
+            await axios.post('/api/switch_account', { account });
+            showNotification('Switched to ' + account);
+            location.reload(); // Reload to refresh settings
+        } catch (err) {
+            showNotification('Failed to switch account', 'error');
+        }
+    });
 
     // Toggle Niches
     switches.forEach(sw => {

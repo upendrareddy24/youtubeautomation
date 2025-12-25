@@ -26,6 +26,18 @@
                     <i class="fas fa-th-large"></i>
                     <span>Dashboard</span>
                 </div>
+                <div style="margin: 1.5rem 0; padding: 0 1rem;">
+                    <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">Active Channel:
+                    </p>
+                    <select id="accountSwitcher"
+                        style="width: 100%; background: var(--glass-bg); color: white; border: 1px solid var(--glass-border); padding: 0.5rem; border-radius: 8px;">
+                        {% for acc_name in settings.accounts %}
+                        <option value="{{ acc_name }}" {{ 'selected' if acc_name==settings.active_account else '' }}>
+                            {{ acc_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="nav-item">
                     <i class="fas fa-chart-line"></i>
                     <span>Analytics</span>

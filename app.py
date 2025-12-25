@@ -26,7 +26,23 @@ def save_settings(settings):
 @app.route("/")
 def index():
     settings = load_settings()
+    # Default accounts if missing
+    if "accounts" not in settings:
+        settings["accounts"] = {"Primary": "token.json"}
+        settings["active_account"] = "Primary"
+        save_settings(settings)
+        
     return render_template("index.html", settings=settings, all_niches=NICHES)
+
+@app.route("/api/switch_account", methods=["POST"])
+def switch_account():
+    account_name = request.json.get("account")
+    settings = load_settings()
+    if account_name in settings.get("accounts", {}):
+        settings["active_account"] = account_name
+        save_settings(settings)
+        return jsonify({"status": "success"})
+    return jsonify({"status": "error", "message": "Account not found"}), 404
 
 @app.route("/api/settings", methods=["GET"])
 def get_settings():

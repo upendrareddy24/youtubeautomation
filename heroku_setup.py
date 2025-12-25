@@ -13,6 +13,12 @@ def setup_heroku():
         with open("token.json", "w") as f:
             f.write(google_token)
 
+    # 2.1 token_secondary.json
+    google_token_sec = os.getenv("GOOGLE_TOKEN_SECONDARY")
+    if google_token_sec:
+        with open("token_secondary.json", "w") as f:
+            f.write(google_token_sec)
+
     # 3. client_secrets.json
     client_id = os.getenv("YOUTUBE_CLIENT_ID")
     client_secret = os.getenv("YOUTUBE_CLIENT_SECRET")

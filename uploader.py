@@ -14,15 +14,16 @@ logger = logging.getLogger(__name__)
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 
 class YouTubeUploader:
-    def __init__(self, secrets_file="client_secrets.json"):
+    def __init__(self, secrets_file="client_secrets.json", token_file="token.json"):
         self.secrets_file = secrets_file
+        self.token_file = token_file
         self.creds = self.get_credentials()
         self.youtube = build("youtube", "v3", credentials=self.creds)
 
     def get_credentials(self):
         creds = None
-        if os.path.exists("token.json"):
-            creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+        if os.path.exists(self.token_file):
+            creds = Credentials.from_authorized_user_file(self.token_file, SCOPES)
         
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
@@ -31,9 +32,10 @@ class YouTubeUploader:
                 if not os.path.exists(self.secrets_file):
                     raise FileNotFoundError(f"Please provide {self.secrets_file} from Google Cloud Console.")
                 flow = InstalledAppFlow.from_client_secrets_file(self.secrets_file, SCOPES)
+                # For Heroku, we usually don't run local server, but this is for local setup
                 creds = flow.run_local_server(port=0)
             
-            with open("token.json", "w") as token:
+            with open(self.token_file, "w") as token:
                 token.write(creds.to_json())
         return creds
 

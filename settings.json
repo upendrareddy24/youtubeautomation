@@ -1,4 +1,9 @@
 {
+    "active_account": "Primary",
+    "accounts": {
+        "Primary": "token.json",
+        "Secondary": "token_secondary.json"
+    },
     "schedule_time": "10:00",
     "niches": {
         "AI Productivity": {

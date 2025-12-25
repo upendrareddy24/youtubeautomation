@@ -9,11 +9,11 @@ from config import NICHES, DELAY_BETWEEN_UPLOADS_SECONDS
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def run_pipeline(niche, count=1):
+def run_pipeline(niche, count=1, token_file="token.json"):
     try:
         content_engine = ContentGenerator()
         video_engine = VideoBuilder()
-        uploader = YouTubeUploader()
+        uploader = YouTubeUploader(token_file=token_file)
 
         logger.info(f"--- Starting Pipeline for Niche: {niche} (Count: {count}) ---")
         
@@ -64,13 +64,16 @@ if __name__ == "__main__":
 
     logger.info("Starting Pro Automation via Dashboard Settings.")
     
+    active_account = settings.get("active_account", "Primary")
+    token_file = settings.get("accounts", {}).get(active_account, "token.json")
+    
     enabled_niches = [n for n, cfg in active_niches.items() if cfg.get("enabled")]
     
     for i, niche in enumerate(enabled_niches):
         count = active_niches[niche].get("daily_count", 1)
         if count <= 0: continue
         
-        success = run_pipeline(niche, count=count)
+        success = run_pipeline(niche, count=count, token_file=token_file)
         
         # Update last run in settings
         if settings:
