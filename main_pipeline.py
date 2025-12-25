@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import time
+import random
 from content_gen import ContentGenerator
 from video_builder import VideoBuilder
 from uploader import YouTubeUploader
