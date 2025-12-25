@@ -23,8 +23,17 @@ class YouTubeUploader:
     def get_credentials(self):
         creds = None
         if os.path.exists(self.token_file):
-            creds = Credentials.from_authorized_user_file(self.token_file, SCOPES)
-        
+            try:
+                creds = Credentials.from_authorized_user_file(self.token_file, SCOPES)
+            except Exception as e:
+                logger.error(f"Failed to load {self.token_file}: {e}")
+                logger.error("Your GOOGLE_TOKEN content is likely corrupted or empty.")
+                # Don't return None, let it fall through or re-raise if strictly required.
+                # If we continue, it will try to refresh active creds (which is None) or use secrets file.
+                # But typically if token file exists but is bad, we should probably delete it or fail hard?
+                # Failing hard is safer to alert user.
+                raise ValueError(f"Corrupted {self.token_file}. Check your Heroku GOOGLE_TOKEN variable.")
+
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
