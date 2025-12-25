@@ -1,0 +1,25 @@
+C:\Users\nbhav\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\site-packages\google\api_core\_python_version_support.py:266: FutureWarning: You are using a Python version (3.10.11) which Google will stop supporting in new releases of google.api_core once it reaches its end of life (2026-10-04). Please upgrade to the latest Python version, or at least Python 3.11, to continue receiving updates for google.api_core past that date.
+  warnings.warn(message, FutureWarning)
+[DRY-RUN] \U0001f3ac STARTED: Full Codebase Audit & Dry Run
+[DRY-RUN] Checking config.py...
+[DRY-RUN] \u2705 Configuration Integrity: PASS
+[DRY-RUN] Testing Pipeline Logic with Mock Settings...
+[DRY-RUN] \U0001f449 Testing Niche: Stoic Wisdom | Sub: Mindset of a Warrior | Count: 1
+[DRY-RUN] --- Starting Pipeline for Niche: Stoic Wisdom (Sub: Mindset of a Warrior, Count: 1) ---
+[DRY-RUN] Generating video 1 of 1 for Stoic Wisdom...
+[DRY-RUN] --- Successfully Finished Niche: Stoic Wisdom ---
+[DRY-RUN]    \u2705 Pipeline Success for Stoic Wisdom
+[DRY-RUN]    \u2705 Content Generator Called Correctly
+[DRY-RUN]    \u2705 Video Builder Called Correctly
+[DRY-RUN]    \u2705 Uploader Called Correctly
+[DRY-RUN]    \u23f3 (Simulated) Random Delay Triggered...
+[DRY-RUN] \U0001f449 Testing Niche: AI Productivity | Sub: Future Tech News | Count: 1
+[DRY-RUN] --- Starting Pipeline for Niche: AI Productivity (Sub: Future Tech News, Count: 1) ---
+[DRY-RUN] Generating video 1 of 1 for AI Productivity...
+[DRY-RUN] --- Successfully Finished Niche: AI Productivity ---
+[DRY-RUN]    \u2705 Pipeline Success for AI Productivity
+[DRY-RUN]    \u2705 Content Generator Called Correctly
+[DRY-RUN]    \u2705 Video Builder Called Correctly
+[DRY-RUN]    \u2705 Uploader Called Correctly
+[DRY-RUN] \u2705 Pipeline Logic: PASS
+[DRY-RUN] \U0001f389 AUDIT COMPLETE: Ready for Deployment
