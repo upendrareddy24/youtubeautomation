@@ -88,8 +88,10 @@ if __name__ == "__main__":
 
         # Delay between niches to avoid spam detection
         if i < len(enabled_niches) - 1:
-            wait_time = DELAY_BETWEEN_UPLOADS_SECONDS
-            logger.info(f"Waiting {wait_time} seconds before the next niche...")
+            # Random delay 20-40 minutes
+            wait_time = random.randint(1200, 2400) 
+            minutes = wait_time // 60
+            logger.info(f"Waiting {minutes} minutes ({wait_time}s) before the next niche to mimic human behavior...")
             time.sleep(wait_time)
             
     logger.info("All daily automation tasks completed.")

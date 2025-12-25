@@ -213,3 +213,8 @@ body {
     text-align: center;
     width: 200px;
 }
+
+select option {
+    background: var(--bg-dark);
+    color: white;
+}
