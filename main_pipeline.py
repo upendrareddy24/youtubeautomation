@@ -12,7 +12,7 @@ from config import NICHES, DELAY_BETWEEN_UPLOADS_SECONDS
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def run_pipeline(niche, count=1, token_file="token.json", sub_niche=None):
+def run_pipeline(niche, count=1, token_file="token.json", sub_niche=None, immediate=False):
     try:
         content_engine = ContentGenerator()
         video_engine = VideoBuilder()
@@ -78,7 +78,8 @@ if __name__ == "__main__":
         
         if count <= 0: continue
         
-        success = run_pipeline(niche, count=count, token_file=token_file, sub_niche=sub_niche)
+        # For debugging/impatience, we can force immediate execution for at least the first item
+        success = run_pipeline(niche, count=count, token_file=token_file, sub_niche=sub_niche, immediate=True)
         
         # Update last run in settings
         if settings:
@@ -89,10 +90,10 @@ if __name__ == "__main__":
 
         # Delay between niches to avoid spam detection
         if i < len(enabled_niches) - 1:
-            # Random delay 20-40 minutes
-            wait_time = random.randint(1200, 2400) 
+            # Reduced delay for testing satisfaction
+            wait_time = random.randint(60, 120)  # 1-2 minutes instead of 20-40 
             minutes = wait_time // 60
-            logger.info(f"Waiting {minutes} minutes ({wait_time}s) before the next niche to mimic human behavior...")
+            logger.info(f"Waiting {minutes} minutes ({wait_time}s) before the next niche...")
             time.sleep(wait_time)
             
     logger.info("All daily automation tasks completed.")
