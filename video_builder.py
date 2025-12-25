@@ -58,13 +58,14 @@ class VideoBuilder:
                 clip = VideoFileClip(video_path)
                 # Resize/Crop to 9:16 aspect ratio (1080x1920) for Shorts
                 # First resize to cover 1080x1920
-                if clip.w / clip.h > 1080 / 1920:
-                     clip = clip.resized(height=1920)
+                target_w, target_h = 1080, 1920
+                if clip.w / clip.h > target_w / target_h:
+                     clip = clip.resized(height=target_h)
                 else:
-                     clip = clip.resized(width=1080)
+                     clip = clip.resized(width=target_w)
                 
-                # Center crop
-                clip = clip.cropped(width=1080, height=1920, x_center=clip.w/2, y_center=clip.h/2)
+                # Center crop - Ensure integers
+                clip = clip.cropped(width=target_w, height=target_h, x_center=int(clip.w/2), y_center=int(clip.h/2))
                 
                 duration = min(clip.duration, 5)
                 clip = clip.subclipped(0, duration) 
@@ -96,7 +97,15 @@ class VideoBuilder:
         output_path = "final_short.mp4"
         
         logger.info("Exporting final video...")
-        final_video.write_videofile(output_path, codec="libx264", audio_codec="aac", fps=24)
+        # Use preset='ultrafast' to reduce CPU/RAM usage
+        # threads=1 reduces memory overhead
+        final_video.write_videofile(output_path, codec="libx264", audio_codec="aac", fps=24, threads=1, preset='ultrafast')
+        
+        # Cleanup
+        final_video.close()
+        for clip in clips:
+            clip.close()
+            
         return output_path
 
 if __name__ == "__main__":
