@@ -5,6 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRunNow = document.getElementById('btnRunNow');
     const statusText = document.getElementById('statusText');
     const accountSwitcher = document.getElementById('accountSwitcher');
+    const subNicheSelectors = document.querySelectorAll('.sub-niche-select');
+
+    // Update Sub-Niches
+    subNicheSelectors.forEach(select => {
+        select.addEventListener('change', async () => {
+            const niche = select.dataset.niche;
+            const selected_sub = select.value;
+            await updateNicheSetting(niche, { selected_sub });
+        });
+    });
 
     // Switch Accounts
     accountSwitcher.addEventListener('change', async () => {

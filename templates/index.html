@@ -91,8 +91,22 @@
                         <h3 style="font-size: 1.1rem;">{{ name }}</h3>
                         <div class="switch {{ 'active' if niche.enabled else '' }}" data-niche="{{ name }}"></div>
                     </div>
+
+                    <div style="margin-bottom: 1rem;">
+                        <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.3rem;">Focus Topic:
+                        </p>
+                        <select class="sub-niche-select" data-niche="{{ name }}"
+                            style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 0.4rem; border-radius: 8px; font-size: 0.85rem;">
+                            {% for sub in all_niches[name].sub_niches %}
+                            <option value="{{ sub }}" {{ 'selected' if sub==niche.selected_sub else '' }}>
+                                {{ sub }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Daily Target:</span>
+                        <span style="color: var(--text-secondary); font-size: 0.8rem;">Daily Target:</span>
                         <input type="number" class="niche-count" data-niche="{{ name }}" value="{{ niche.daily_count }}"
                             min="0" max="10"
                             style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; width: 60px; padding: 0.3rem; border-radius: 8px; text-align: center;">

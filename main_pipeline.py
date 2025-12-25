@@ -9,18 +9,18 @@ from config import NICHES, DELAY_BETWEEN_UPLOADS_SECONDS
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def run_pipeline(niche, count=1, token_file="token.json"):
+def run_pipeline(niche, count=1, token_file="token.json", sub_niche=None):
     try:
         content_engine = ContentGenerator()
         video_engine = VideoBuilder()
         uploader = YouTubeUploader(token_file=token_file)
 
-        logger.info(f"--- Starting Pipeline for Niche: {niche} (Count: {count}) ---")
+        logger.info(f"--- Starting Pipeline for Niche: {niche} (Sub: {sub_niche}, Count: {count}) ---")
         
         for i in range(count):
             logger.info(f"Generating video {i+1} of {count} for {niche}...")
             # Step 1: Content Meta
-            script_data = content_engine.generate_short_script(niche)
+            script_data = content_engine.generate_short_script(niche, sub_niche=sub_niche)
             if not script_data:
                 continue
 
@@ -71,9 +71,11 @@ if __name__ == "__main__":
     
     for i, niche in enumerate(enabled_niches):
         count = active_niches[niche].get("daily_count", 1)
+        sub_niche = active_niches[niche].get("selected_sub", None)
+        
         if count <= 0: continue
         
-        success = run_pipeline(niche, count=count, token_file=token_file)
+        success = run_pipeline(niche, count=count, token_file=token_file, sub_niche=sub_niche)
         
         # Update last run in settings
         if settings:

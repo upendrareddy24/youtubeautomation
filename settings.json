@@ -8,43 +8,53 @@
     "niches": {
         "AI Productivity": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "AI for Students"
         },
         "Stoic Wisdom": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Marcus Aurelius Quotes"
         },
         "Financial Intelligence": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Crypto for Beginners"
         },
         "Mind-Blowing Science": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Quantum Physics Facts"
         },
         "Psychology Secrets": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Manipulation Techniques"
         },
         "Luxury Lifestyle": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Supercar Reviews"
         },
         "Hidden Travel Gems": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Untouched Islands"
         },
         "Healthy Longevity": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Cold Plunge Benefits"
         },
         "Historical Mysteries": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Lost Civilizations"
         },
         "Productivity Hacks": {
             "enabled": true,
-            "daily_count": 1
+            "daily_count": 1,
+            "selected_sub": "Pomodoro Technique"
         }
     },
     "last_run": null,

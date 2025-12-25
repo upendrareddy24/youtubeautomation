@@ -17,7 +17,7 @@ class ContentGenerator:
     def __init__(self):
         self.client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
 
-    def generate_short_script(self, niche="Success Habits"):
+    def generate_short_script(self, niche="Success Habits", sub_niche=None):
         if not self.client:
             logger.error("Gemini API key not found. Using dummy data.")
             return {
@@ -34,8 +34,10 @@ class ContentGenerator:
         prompt_mod = niche_config.get("prompt_mod", "")
         hashtags = niche_config.get("hashtags", "#Shorts")
 
+        topic_focus = f"specifically regarding '{sub_niche}'" if sub_niche else ""
+
         prompt = f"""
-        Act as a viral YouTube Shorts creator in the '{niche}' niche.
+        Act as a viral YouTube Shorts creator in the '{niche}' niche, {topic_focus}.
         {prompt_mod}
         Generate a script for a 30-60 second YouTube Short.
         
