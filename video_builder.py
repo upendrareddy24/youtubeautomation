@@ -65,7 +65,7 @@ class VideoBuilder:
                         text=scene['text'], 
                         font_size=50, 
                         color='white', 
-                        font='Arial', 
+                        font='arial.ttf', 
                         method='caption',
                         size=(clip.w * 0.8, None)
                     ).with_position('center').with_duration(5)
