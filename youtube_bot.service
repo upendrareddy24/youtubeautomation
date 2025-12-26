@@ -1,0 +1,14 @@
+[Unit]
+Description=YouTube Shorts Automator Dashboard
+After=network.target
+
+[Service]
+# CHANGEUSER: running as 'ubuntu' by default. Change to 'opc' for Oracle Linux.
+User=ubuntu
+WorkingDirectory=/home/ubuntu/youtube_shorts_automator
+Environment="PATH=/home/ubuntu/youtube_shorts_automator/venv/bin"
+ExecStart=/home/ubuntu/youtube_shorts_automator/venv/bin/gunicorn --workers 1 --bind 0.0.0.0:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

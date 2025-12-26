@@ -37,20 +37,30 @@ class ContentGenerator:
         topic_focus = f"specifically regarding '{sub_niche}'" if sub_niche else ""
 
         prompt = f"""
-        Act as a viral YouTube Shorts creator in the '{niche}' niche, {topic_focus}.
-        {prompt_mod}
-        Generate a script for a 30-60 second YouTube Short.
+        You are an elite YouTube Shorts strategist and creator with 30+ years of experience in viral content. 
+        Your goal is to create a script that is GUARANTEED to go viral (1M+ views).
         
-        Provide the result in JSON format:
+        Niche: '{niche}' {topic_focus}
+        {prompt_mod}
+        
+        VIRAL FORMULA:
+        1. **The Hook (0-3s)**: A controversial statement, a surprising fact, or a "Stop scrolling" command.
+        2. **The Retention (3-45s)**: High-value, fast-paced information. No fluff. Constant dopamine hits. 
+        3. **The CTAs**: Subtle cues to subscribe or like.
+        
+        Generate a script for a 30-50 second YouTube Short.
+        
+        Provide the result in STRICT JSON format:
         {{
-            "title": "Viral title with {hashtags}",
-            "description": "Engaging description with {hashtags}",
+            "title": "CLICKBAIT TITLE with {hashtags}",
+            "description": "Viral SEO description with {hashtags}",
             "scenes": [
                 {{
-                    "text": "Short punchy text overlay (max 8 words)",
-                    "keywords": "3 keywords for searching stock footage on Pexels"
+                    "narration": "The spoken words for the voiceover. Use colloquial, punchy language.",
+                    "text": "Short visual hook (MAX 3-5 WORDS) - e.g. 'STOP DOING THIS'",
+                    "keywords": "3 specific visual keywords for Pexels search"
                 }},
-                ... (3-5 scenes total)
+                ... (create enough scenes for 30-50s)
             ]
         }}
         """
